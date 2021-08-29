@@ -1,0 +1,6 @@
+.row .col .card .card-image img {
+    max-height: 150px;
+}
+.body-login {
+    display: none;
+}

@@ -1,0 +1,140 @@
+.body-dashboard {
+  display: none;
+}
+.nav-header-menu {
+  height: 50px;
+}
+.menu-button {
+    position: fixed;
+    top: 0px;
+}
+.header-nav {
+  text-align: center;
+  color: black;
+}
+.progress {
+    display: none;
+    z-index: 1;
+    position: fixed;
+    top: 200px;
+}
+.btn-floating-new-data {
+    display: none;
+    position: fixed;
+    bottom: 30px;
+    right: 15px;
+    opacity: 0.5;
+}
+select {
+    display: flex;
+ }
+ .modal {
+     z-index: 2;
+ }
+ .responsive-img {
+     width: 50px;
+     height: 50px;
+ }
+ #bulanSelectFormJadawal1
+ , #tahunSelectFormJadawal1
+ , #tahunSelectFormLaporan
+ , #bulanSelectFormLaporan
+ , .colom-2-class-input-absensi2
+ , .colom-3-class-input-absensi2 {
+     display: none;
+ }
+.message-class {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 2px;
+  color: aqua;
+}
+ /* kalendar */
+ .month {
+    padding: 5px 5px;
+    width: 100%;
+    background: #1abc9c;
+    text-align: center;
+  }
+  
+  .month ul {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .month ul li {
+    color: white;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+  }
+  
+  .month .prev {
+    float: left;
+    padding-top: 10px;
+  }
+  
+  .month .next {
+    float: right;
+    padding-top: 10px;
+  }
+  
+  .weekdays {
+    margin: 0;
+    padding: 10px 0;
+    background-color: #ddd;
+  }
+  
+  .weekdays li {
+    display: inline-block;
+    width: 13.6%;
+    color: #666;
+    text-align: center;
+  }
+  
+  .days {
+    padding: 10px 0;
+    background: #eee;
+    margin: 0;
+  }
+  .bulan-terisi-jadwal {
+    background-color: rgb(162, 174, 209) ;color: black; border-radius: 10px;
+  }
+  .days li {
+    list-style-type: none;
+    display: inline-block;
+    width: 13.6%;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size:12px;
+    color: #777;
+    cursor: pointer;
+  }
+  
+  .days li .active {
+    padding: 5px;
+    background: #1abc9c;
+    color: white !important
+  }
+  .days li:hover {
+    color: rgb(14, 12, 12) !important
+  }
+  /* Add media queries for smaller screens */
+  @media screen and (max-width:720px) {
+    .weekdays li, .days li {width: 13.1%;}
+  }
+  
+  @media screen and (max-width: 420px) {
+    .weekdays li, .days li {width: 12.5%;}
+    .days li .active {padding: 2px;}
+  }
+  
+  @media screen and (max-width: 290px) {
+    .weekdays li, .days li {width: 12.2%;}
+  }
+
+  .img-button-act {
+    width: 24px;
+    height: 27px;
+  }

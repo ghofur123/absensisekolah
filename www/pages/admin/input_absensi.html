@@ -1,0 +1,53 @@
+<div class="row">
+    <div class="col s12">
+        <div class="card">
+            <form class='col s12' id="form-absensi-input">
+                <div class='row'>
+                    <div class="card-content">
+                        <!-- barcode -->
+                        <div class='input-field col s12'>
+                            <div class="message-qrcode-absensi2"></div>
+                        </div>
+                        <div class='input-field col s4'>
+                            <input id='qrcodeCheckAbsensi2' readonly type='password'  required class='validate'>
+                            <label for='qrcodeCheckAbsensi2' class="active">QRCode</label>
+                        </div>
+                        <div class='input-field col s4'>
+                            <input id='nilaiAbsensi2' readonly type='text' required class='validate'>
+                            <label for='nilaiAbsensi2' class="active">Nilai</label>
+                        </div>
+                        <div class='input-field col s4'>
+                            <a class='button-check-qrcode-absensi2 waves-effect teal darken-4 btn-small' href='#'>Scan</a>
+                        </div>
+                        <!-- lokasi -->
+                        <div class='input-field col s12'>
+                            <div class="message-location-absensi2"></div>
+                        </div>
+                        <div class='input-field col s6 colom-2-class-input-absensi2'>
+                            <input id='latitudeAbsensi2' hidden  type='text' required class='validate'>
+                            <input id='longitudeAbsensi2' hidden  type='text' required class='validate'>
+                            <input id='jarakLokasi2' readonly type='text' required class='validate'>
+                            <label for='jarakLokasi2' class="active">Jarak Dalam Meter</label>
+                        </div>
+                        <div class='input-field col s6 colom-2-class-input-absensi2'>
+                            <a class='button-check-lokasi-absensi2 waves-effect red darken-4 btn-small' href='#'>check Location</a>
+                        </div>
+
+                        <div class='input-field col s12 colom-3-class-input-absensi2'>
+                            <input id='jadwalIdAbsensi2' hidden type='text'  required class='validate'>
+                            <input id='lembagaIdAbsensi2' hidden  type='text' required class='validate'>
+                            <input id='tglAbsensi2' hidden  type='text' required class='validate'>
+                            <input id='jamAbsensi2' hidden  type='text' required class='validate'>
+                            <input id='pembahasanAbsensi2' type='text' required class='validate'>
+
+                            <label for='pembahasanAbsensi2'>Pembahasan</label>
+                        </div>
+                        <div class='input-field col s12 colom-3-class-input-absensi2'>
+                            <button type="button" class='tambah-absensi2-karyawan-qr waves-effect waves-light btn-small'>Absensi</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

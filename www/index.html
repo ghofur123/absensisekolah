@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="libs/materialize/css/materialize.min.css">
+    <link rel="stylesheet" href="assets/css/login.css">
+    <title>login</title>
+</head>
+<body class="body-login">
+    <div class="row">
+        <div class="col s12">
+          <div class="card">
+            <div class="card-image">
+              <img src="assets/img/yayasan.jpg">
+              <span class="card-title">Yayasan Pendidikan Islam Nurul Mannan</span>
+            </div>
+            <div class="card-content">
+                <p><div class="message-login"></div></p>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input id="username" type="text" class="validate">
+                        <label for="username">Username</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input id="password" type="password" class="validate">
+                        <label for="password">Password</label>
+                    </div>
+                    <a class="waves-effect waves-light btn-small button-login-normally" style='width:100%;' href="#">Login</a><br><br>
+                    <a class="waves-effect red darken-3 btn-small button-login-qrcode" style='width:100%;' href="#">Login QRCode</a>
+                </div> 
+            </div>
+          </div>
+        </div>
+      </div>
+    <script src="cordova.js"></script>
+    <script src="libs/firebase/firebase.js"></script>
+    <script src="libs/jquery/jquery-3.4.1.js"></script>
+    <script src="libs/materialize/js/materialize.min.js"></script>
+    <script src="assets/js/login.js"></script>
+</body>
+</html>

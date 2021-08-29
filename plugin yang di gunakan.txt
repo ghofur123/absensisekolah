@@ -1,0 +1,3 @@
+cordova plugin add cordova.plugins.diagnostic
+// untuk mendiagnosa plugin apa saja yang tidak berjalan
+https://github.com/dpa99c/cordova-diagnostic-plugin#isgpslocationenabled
