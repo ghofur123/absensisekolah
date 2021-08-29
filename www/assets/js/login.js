@@ -19,7 +19,7 @@ $(document).ready(function(){
         $(".body-login").show();
     } else {
         $(".body-login").hide();
-        window.location.href="dashboard.html";
+        window.location.href="index.html";
     }
 });
 $(document).on("click", ".button-login-normally", function(){

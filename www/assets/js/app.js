@@ -42,7 +42,7 @@ $(document).ready(function(){
     loadLembagaSelect();
     if (localStorage.getItem("karyawanIdLogin") == null || localStorage.getItem("karyawanIdLogin") == "") {
         $(".body-dashboard").hide();
-        window.location.href="index.html";
+        window.location.href="login.html";
     } else {
         $(".body-dashboard").show();
     }
