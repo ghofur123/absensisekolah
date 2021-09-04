@@ -411,13 +411,13 @@ $(document).on("click", ".days li", function() {
         "<tbody>";
     rootRef.ref("jadwal/" + bulanFormat + "/" + localStorage.getItem("lembagaIdSave") + "/").orderByChild("tgl").equalTo(tglValue).on("child_added", function(dataValueJadwalTgl) {
         let dataResultTgl = dataValueJadwalTgl.val();
-        let thnTglFormat = dataResultTgl.tgl.substring(7, 0)
+        let thnTglFormat = dataResultTgl.tgl.substring(7, 0);
         JadwalArray += "  <tr>" +
             "    <td>" + dataResultTgl.jam + "</td>" +
             "    <td>" + dataResultTgl.nama_jadwal + "</td>" +
             "    <td>" +
             "      <a class='edit-button-jadwal-class waves-effect waves-light btn-small modal-trigger' data2='" + thnTglFormat + "' data='" + dataResultTgl.id_jadwal + "' href='#modal1'><img class='img-button-act' src='assets/img/outline_edit_black_24dp.png' alt=''></a>" +
-            "      <a class='delete-button-jadwal-class waves-effect red btn-small modal-close' data1='" + dataResultTgl.tgl + "' data='jadwal/" + bulanFormat + dataResultTgl.id_jadwal + "'><img class='img-button-act' src='assets/img/outline_delete_black_24dp.png' alt='' srcset=''></a>" +
+            "      <a class='delete-button-jadwal-class waves-effect red btn-small modal-close' data1='" + dataResultTgl.tgl + "' data='jadwal/" + bulanFormat + localStorage.getItem("lembagaIdSave") + "/" + dataResultTgl.id_jadwal + "'><img class='img-button-act' src='assets/img/outline_delete_black_24dp.png' alt='' srcset=''></a>" +
             "    </td>" +
             "  </tr>";
         $(".modal-content-view-all-class").html(JadwalArray + "</tbody></table>");
@@ -785,7 +785,6 @@ $(document).on("click", ".button-check-isi-classs", function() {
 
 // start profile
 function loadProfile() {
-    $()
     let karyawanRef = rootRef.ref("karyawan/" + localStorage.getItem("karyawanIdLogin"));
     karyawanRef.on("value", function(dataProfile) {
         let data = dataProfile.val();
@@ -878,10 +877,11 @@ function loadLaporanAll() {
         "</thead>" +
         "<tbody>";
     let sumNilai = 0;
-    let jadwalAbsensi = rootRef.ref("jadwal/" + localStorage.getItem("tahunSelectSaveLaporan") + "/" + bulan + "/");
+    let jadwalAbsensi = rootRef.ref("jadwal/" + localStorage.getItem("tahunSelectSaveLaporan") + "/" + bulan + "/" + localStorage.getItem("lembagaIdSaveLaporan") + "/");
     let checkAbsensi = rootRef.ref("absensi/" + localStorage.getItem("tahunSelectSaveLaporan") + "/" + bulan + "/" + localStorage.getItem("lembagaIdSaveLaporan") + "/");
     checkAbsensi.orderByChild("karyawan_id").equalTo(localStorage.getItem("karyawanIdSelectSaveLaporan")).on("child_added", function(dataSnap) {
         let resultData = dataSnap.val();
+        console.log("jadwal/" + localStorage.getItem("tahunSelectSaveLaporan") + "/" + bulan + "/" + localStorage.getItem("lembagaIdSaveLaporan") + "/");
         jadwalAbsensi.child(resultData.jadwal_id).on("value", function(dataJadwal) {
             let dataJadwalResult = dataJadwal.val();
             setTimeout(function() {
