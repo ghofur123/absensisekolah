@@ -138,3 +138,27 @@ select {
     width: 24px;
     height: 27px;
   }
+  /* qrcode view */
+  .continer-qr {
+    /* border: 1px solid rgb(14, 12, 12); */
+    margin: 10px;
+    border: 1px solid steelblue;
+    border-radius: 10px;
+    box-shadow: 0 0px 10px 0px teal;
+  }
+  .continer-qr .header-qr .lembaga-qr {
+      /* border: 1px solid #000; */
+      text-align: center;
+      color: #0074D9;
+  }
+  .continer-qr .header-qr .name-qrcode {
+      text-align: center;
+      color: black;
+  }
+  .content-qr {
+      text-align: center;
+
+  }
+  .footer-qr {
+      text-align: center;
+  }

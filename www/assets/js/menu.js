@@ -75,6 +75,14 @@ $(document).on("click", ".menu-nav", function() {
             loadLembagaSelect();
             $(".progress").hide();
         }, 1000);
+    }else if (dataVal == "profil") {
+        $(".span-value").html("Profil");
+        $(".progress").show();
+        $(".load-pages").load("pages/admin/dashboard.html");
+        setTimeout(function() {
+            $(".progress").hide();
+            loadProfile();
+        }, 1000);
     } else {
         $(".btn-plus-data-class").hide();
         $(".span-value").html("YPI Nurul Mannan");

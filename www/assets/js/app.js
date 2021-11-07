@@ -1,4 +1,4 @@
-// Your web app's Firebase configuration
+// // Your web app's Firebase configuration
 var firebaseConfig = {
     apiKey: "AIzaSyAptcWZb57Fpn5zlTy8I0x7-7JYKjU_gyc",
     authDomain: "adminsekolah-f425d.firebaseapp.com",
@@ -401,7 +401,8 @@ $(document).on("click", ".days li", function() {
     let bulanFormat = blnValue.replace("-", "/") + "/";
 
     let JadwalArray = "";
-    JadwalArray += '<table class="kelompok-load-class">' +
+    
+    JadwalArray += "<table class='kelompok-load-class'>"+
         "<thead>" +
         "<tr>" +
         "<th>Jam</th>" +
@@ -484,7 +485,8 @@ function loadQrcode() {
     $(".progress").show();
     let no = 1;
     let qrcodeArray = "";
-    qrcodeArray += '<table>' +
+    qrcodeArray += "<a href='#' class='pdf-qrcode-class waves-effect waves-light btn-small'>PDF</a>"+
+        "<table>" +
         "<thead>" +
         "<tr>" +
         "<th>No</th>" +
@@ -507,6 +509,7 @@ function loadQrcode() {
                 "    <td>" + dataValue.latitude + "</td>" +
                 "    <td>" + dataValue.longitude + "</td>" +
                 "    <td>" +
+                "      <a class='view-button-qrcode-class waves-effect btn-small' data='" + dataValue.id_qrcode + "'><img class='img-button-act' src='assets/img/outline_arrow_forward_black_24dp.png' alt='' srcset=''></a>" +
                 "      <a class='edit-button-qrcode-class waves-effect waves-light btn-small modal-trigger' data='" + dataValue.id_qrcode + "' href='#modal1'><img class='img-button-act' src='assets/img/outline_edit_black_24dp.png' alt=''></a>" +
                 "      <a class='delete-button-qrcode-class waves-effect red btn-small' data='" + dataValue.id_qrcode + "'><img class='img-button-act' src='assets/img/outline_delete_black_24dp.png' alt='' srcset=''></a>" +
                 "    </td>" +
@@ -542,6 +545,25 @@ $(document).on("click", ".delete-button-qrcode-class", function() {
     let qrcodeRef = rootRef.ref("qrcode/" + idQrcode);
     qrcodeRef.remove();
     loadQrcode();
+});
+$(document).on("click", ".view-button-qrcode-class", function(){
+        let idQrCodeView = $(this).attr("data");
+        $(".progress").show();
+        $(".load-pages").load("pages/admin/subpages/pdf_qrcode.html");
+        setTimeout(function(){
+            // $('#qrcode-id-pdf').empty();
+        
+        // let qrCodeArray = "";
+        console.log(idQrCodeView);
+        let db = rootRef.ref("qrcode/" + idQrCodeView);
+        db.on("value", function(data) {
+            console.log(data);
+            let dataValue = data.val();
+            $(".name-qrcode").html(dataValue.nama_qrcode);
+            $('.view-qr').qrcode(dataValue.id_qrcode);
+        });
+        $(".progress").hide();
+    }, 2000);
 });
 // qrcode end
 

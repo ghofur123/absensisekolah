@@ -23,9 +23,12 @@ $(document).ready(function() {
     }
 });
 $(document).on("click", ".button-login-normally", function() {
+    
+    $(".progess").show();
     let usernameV = $("#username").val();
     let passwordV = $("#password").val();
 
+    // console.log(usernameV + "-----" + passwordV);
     let checkKaryawan = rootRef.ref("karyawan/")
         .orderByChild("username")
         .equalTo(usernameV);
@@ -41,9 +44,11 @@ $(document).on("click", ".button-login-normally", function() {
                 localStorage.setItem("karyawanNamaLogin", result.nama);
                 localStorage.setItem("karyawanStatusLogin", result.status);
                 var pesan = "Berhasil";
-                window.location.href = "dashboard.html";
+                $(".progess").hide();
+                window.location.href = "index.html";
             } else {
                 var pesan = "Username atau Password Salah";
+                $(".progess").hide();
             }
         }
         $(".message-login").html(pesan);
