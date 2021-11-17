@@ -1,3 +1,6 @@
+.status-admin, .status-karyawan {
+  display: none;
+}
 .body-dashboard {
   display: none;
 }

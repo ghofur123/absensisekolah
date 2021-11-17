@@ -36,7 +36,16 @@ function checkAppsAll() {
 
 }
 $(document).ready(function() {
-    // checkAppsAll();
+    let statusLogin = localStorage.getItem("karyawanStatusLogin");
+    if(statusLogin == "operator" || statusLogin == "tata usaha"){
+        $(".status-admin").show();
+        $(".status-karyawan").hide();
+    } else {
+        $(".status-admin").hide();
+        $(".status-karyawan").show();
+    }
+        // $(".status-admin").show();
+        // $(".status-karyawan").hide();
     $('.sidenav').sidenav();
     $('.modal').modal();
     loadLembagaSelect();
@@ -846,6 +855,8 @@ $(document).on("click", ".simpan-profile-class", function() {
 // end profile
 
 // laporan start
+// admin
+// operator dll
 function loadKaryawanLaporan() {
     $(".progress").show();
     let itemKaryawanLaporan = "";
@@ -928,3 +939,69 @@ function loadLaporanAll() {
     });
 }
 // laporan end
+
+
+// laporan start
+// karywan
+$(document).on("change", ".lembagaSelectAllFunction", function(){
+    $(".tahun-div-karyawan").show();
+    localStorage.setItem("lembagaIdSaveLaporanPersonKaryawan", $(this).val());
+    console.log($(this).val());
+});
+$(document).on("change", "#tahunSelectFormLaporan-karyawan", function(){
+    $(".bulan-div-karyawan").show();
+    localStorage.setItem("tahunSelectSaveLaporanPersonKaryawan", $(this).val());
+});
+$(document).on("change", "#bulanSelectFormLaporan-karyawan", function(){
+    localStorage.setItem("bulanSelectSaveLaporanPersonKaryawan", $(this).val());
+    loadLaporanPersonKaryawan();
+});
+function loadLaporanPersonKaryawan() {
+    $(".laporan-class").html("");
+    $(".progress").show();
+    let bulanVal = localStorage.getItem("bulanSelectSaveLaporanPersonKaryawan");
+    if (bulanVal > 9) {
+        var bulan = bulanVal;
+    } else {
+        var bulan = "0" + bulanVal;
+    }
+    let laporanArray = "";
+    laporanArray += '<table>' +
+        "<thead>" +
+        "<tr>" +
+        "<th>Jadwal</th>" +
+        "<th>Tgl</th>" +
+        "<th>Jarak</th>" +
+        "<th>Nilai</th>" +
+        "</tr>" +
+        "</thead>" +
+        "<tbody>";
+    let sumNilai = 0;
+    let jadwalAbsensi = rootRef.ref("jadwal/" + localStorage.getItem("tahunSelectSaveLaporanPersonKaryawan") + "/" + bulan + "/" + localStorage.getItem("lembagaIdSaveLaporanPersonKaryawan") + "/");
+    let checkAbsensi = rootRef.ref("absensi/" + localStorage.getItem("tahunSelectSaveLaporanPersonKaryawan") + "/" + bulan + "/" + localStorage.getItem("lembagaIdSaveLaporanPersonKaryawan") + "/");
+    checkAbsensi.orderByChild("karyawan_id").equalTo(localStorage.getItem("karyawanIdSelectSaveLaporan")).on("child_added", function(dataSnap) {
+        let resultData = dataSnap.val();
+        console.log("jadwal/" + localStorage.getItem("tahunSelectSaveLaporanPersonKaryawan") + "/" + bulan + "/" + localStorage.getItem("lembagaIdSaveLaporanPersonKaryawan") + "/");
+        jadwalAbsensi.child(resultData.jadwal_id).on("value", function(dataJadwal) {
+            let dataJadwalResult = dataJadwal.val();
+            setTimeout(function() {
+                laporanArray += "  <tr>"
+                laporanArray += "<td>" + dataJadwalResult.nama_jadwal + "</td>" +
+                    "<td>" + resultData.tgl + "</td>";
+                let jrk = resultData.jarak_lokasi / 1000;
+                laporanArray += "<td>" + resultData.jarak_lokasi + " M /" + jrk + " KM</td>" +
+                    "    <td>Rp. " + parseInt(resultData.nilai).toLocaleString("id-ID") + "</td>" +
+                    "  </tr>";
+                sumNilai += parseInt(resultData.nilai);
+                let laporanArray2 = "  <tr>" +
+                    "    <td></td>" +
+                    "    <td></td>" +
+                    "    <td>jumlah</td>" +
+                    "    <td>Rp. " + sumNilai.toLocaleString("id-ID") + "</td>" +
+                    "  </tr>";
+                $(".laporan-class-karyawan-person").html(laporanArray + laporanArray2 + "</tbody></table>");
+                $(".progress").hide();
+            }, 1000);
+        });
+    });
+}

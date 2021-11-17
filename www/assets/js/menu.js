@@ -83,6 +83,14 @@ $(document).on("click", ".menu-nav", function() {
             $(".progress").hide();
             loadProfile();
         }, 1000);
+    } else if (dataVal == "laporan-karyawan") {
+        $(".span-value").html("laporan karyawan");
+        $(".progress").show();
+        $(".load-pages").load("pages/admin/laporan_karyawan.html");
+        setTimeout(function() {
+            $(".progress").hide();
+            loadLembagaSelect();
+        }, 1000);
     } else {
         $(".btn-plus-data-class").hide();
         $(".span-value").html("YPI Nurul Mannan");
