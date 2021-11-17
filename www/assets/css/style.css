@@ -165,3 +165,17 @@ select {
   .footer-qr {
       text-align: center;
   }
+  /* chats */
+  .button-chats-form {
+    position: fixed;
+    border: 1px solid #000;
+    width: 100%;
+    bottom: 0%;
+    background: #e5e5e5;
+    color: #ffffff;
+  }
+  .chats-box-users {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }

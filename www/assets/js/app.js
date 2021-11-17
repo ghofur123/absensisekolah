@@ -1005,3 +1005,44 @@ function loadLaporanPersonKaryawan() {
         });
     });
 }
+
+// chats
+$(document).on("click", ".btn-tambah-chats-users",function(){
+    console.log("ok");
+
+    let idChats = new Date().getTime();
+    let dateNow = Date.now();
+    let db = rootRef.ref("chats/" + idChats);
+    db.set({
+        id_chats : idChats,
+        name_user : localStorage.getItem("karyawanNamaLogin"),
+        status_user : localStorage.getItem("karyawanStatusLogin"),
+        time : dateNow,
+        text_chat : $("#text-chats").val()
+    });
+    setTimeout(function() {
+        $("input:text").val("");
+    }, 200);
+});
+
+function loadChats(){
+    let itemChats = "";
+    let lembagaRef = rootRef.ref("chats/");
+    lembagaRef.on("child_added", function(data) {
+        let dataValue = data.val();
+        
+        itemChats += "<div class='row'>"+
+        "<div class='col s12'>"+
+        "        <div class='card-panel teal'>"+
+        "           <span class='white-text'>"+
+                            dataValue.name_user +
+        "                <hr>"+
+                            dataValue.text_chat +
+        "            </span>"+
+        "        </div>"+
+        "    </div>"+
+        "    </div>";
+        $(".load-chats-all").html(itemChats);
+    });
+    $(".chats-box-users").scrollTop = $(".chats-box-users").scrollHeight;
+}

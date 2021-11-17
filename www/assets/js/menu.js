@@ -91,6 +91,14 @@ $(document).on("click", ".menu-nav", function() {
             $(".progress").hide();
             loadLembagaSelect();
         }, 1000);
+    } else if (dataVal == "chats") {
+        $(".span-value").html("Chats");
+        $(".progress").show();
+        $(".load-pages").load("pages/admin/chats.html");
+        setTimeout(function() {
+            $(".progress").hide();
+            loadChats();
+        }, 1000);
     } else {
         $(".btn-plus-data-class").hide();
         $(".span-value").html("YPI Nurul Mannan");
