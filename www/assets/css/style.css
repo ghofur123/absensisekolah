@@ -175,7 +175,12 @@ select {
     color: #ffffff;
   }
   .chats-box-users {
+    height: 90%;
+    overflow-x:hidden;
+    position: absolute;
+    border: 1px solid #000;
     width: 100%;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    color: #000;
+    margin-bottom: 100px;
+    background: #0074D9;
   }

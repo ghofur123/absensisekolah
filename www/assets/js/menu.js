@@ -68,6 +68,7 @@ $(document).on("click", ".menu-nav", function() {
         localStorage.clear();
         window.location.href = "index.html";
     } else if (dataVal == "laporan") {
+        $(".btn-plus-data-class").hide();
         $(".span-value").html("laporan");
         $(".progress").show();
         $(".load-pages").load("pages/admin/laporan.html");
@@ -76,6 +77,7 @@ $(document).on("click", ".menu-nav", function() {
             $(".progress").hide();
         }, 1000);
     }else if (dataVal == "profil") {
+        $(".btn-plus-data-class").hide();
         $(".span-value").html("Profil");
         $(".progress").show();
         $(".load-pages").load("pages/admin/dashboard.html");
@@ -84,6 +86,7 @@ $(document).on("click", ".menu-nav", function() {
             loadProfile();
         }, 1000);
     } else if (dataVal == "laporan-karyawan") {
+        $(".btn-plus-data-class").hide();
         $(".span-value").html("laporan karyawan");
         $(".progress").show();
         $(".load-pages").load("pages/admin/laporan_karyawan.html");
@@ -92,12 +95,26 @@ $(document).on("click", ".menu-nav", function() {
             loadLembagaSelect();
         }, 1000);
     } else if (dataVal == "chats") {
+        $(".btn-plus-data-class").hide();
         $(".span-value").html("Chats");
         $(".progress").show();
         $(".load-pages").load("pages/admin/chats.html");
         setTimeout(function() {
             $(".progress").hide();
             loadChats();
+            setTimeout(function () {
+                $(".chats-box-users").scrollTop(0);
+            },200)
+            
+        }, 1000);
+    }else if (dataVal == "data-siswa") {
+        $(".btn-plus-data-class").show();
+        $(".span-value").html("Data Siswa");
+        $(".progress").show();
+        $(".load-pages").load("pages/admin/data_siswa.html");
+        setTimeout(function() {
+            $(".progress").hide();
+            loadLembagaSelect();
         }, 1000);
     } else {
         $(".btn-plus-data-class").hide();

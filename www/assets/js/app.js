@@ -35,7 +35,8 @@ function checkAppsAll() {
     }
 
 }
-$(document).ready(function() {
+$(document).ready(function() {    
+    scrllUsers();
     let statusLogin = localStorage.getItem("karyawanStatusLogin");
     if(statusLogin == "operator" || statusLogin == "tata usaha"){
         $(".status-admin").show();
@@ -888,7 +889,6 @@ $(document).on("change", "#bulanSelectFormLaporan", function() {
     localStorage.setItem("bulanSelectSaveLaporan", bulanSelect);
     loadLaporanAll();
 });
-
 function loadLaporanAll() {
     $(".laporan-class").html("");
     $(".progress").show();
@@ -1007,6 +1007,7 @@ function loadLaporanPersonKaryawan() {
 }
 
 // chats
+// belum fix
 $(document).on("click", ".btn-tambah-chats-users",function(){
     console.log("ok");
 
@@ -1030,19 +1031,76 @@ function loadChats(){
     let lembagaRef = rootRef.ref("chats/");
     lembagaRef.on("child_added", function(data) {
         let dataValue = data.val();
-        
-        itemChats += "<div class='row'>"+
-        "<div class='col s12'>"+
-        "        <div class='card-panel teal'>"+
-        "           <span class='white-text'>"+
-                            dataValue.name_user +
-        "                <hr>"+
-                            dataValue.text_chat +
-        "            </span>"+
-        "        </div>"+
-        "    </div>"+
-        "    </div>";
+        if(dataValue.status_user == "operator"){
+            itemChats +="<li class='collection-item avatar'>"+
+            "<img src='../../assets/img/outline_support_agent_black_18dp.png' alt='' class='circle'>"+
+            "<span class='title'>"+dataValue.name_user+"</span>"+
+            "<p>"+dataValue.status_user+"<br>"+
+            dataValue.text_chat+
+            "</p>"+
+        "</li>";
+        } else {
+            itemChats +="<li class='collection-item avatar'>"+
+            "<img src='../../assets/img/outline_assignment_ind_black_18dp.png' alt='' class='circle'>"+
+            "<span class='title'>Title</span>"+
+            "<p>First Line <br>"+
+            "Second Line"+
+            "</p>"+
+        "</li>";
+        }
         $(".load-chats-all").html(itemChats);
+        $(window).scrollTop(localStorage.getItem("scrollTerahir").toString() + 100);
     });
-    $(".chats-box-users").scrollTop = $(".chats-box-users").scrollHeight;
 }
+function scrllUsers(){
+    $(".chats-box-users").scroll(function(){
+        console.log($(this).scrollTop());
+        console.log("jalan");
+        localStorage.setItem("scrollTerahir", $(this).scrollTop());
+    });
+}
+// end chat
+
+// data siswa
+$(document).on("change", "#lembagaIdSelectFormDataSiswa", function() {
+    let idLembaga = $(this).val();
+    let contentValue = "";
+    contentValue += "<div class='input-field col s12'>" +
+        "                <select name='' id='kelasIdSelectFormDataSiswa'>" +
+        "                  <option value='' disabled selected>Pilih Kelas</option>"
+    let kelasRef = rootRef.ref("kelas/");
+    kelasRef.orderByChild("lembaga_id").equalTo(idLembaga).on("child_added", function(data) {
+        let dataValue = data.val();
+        contentValue += "<option value='" + dataValue.id_kelas + "'>" + dataValue.nama_kelas + "</option>";
+    });
+    contentValue += "</select>" +
+        "            </div>";
+    $(".view-kelas-select-form-data-siswa").html(contentValue);
+});
+$(document).on("click", ".tambah-data-siswa-class", function(){
+    let idDataSiswa = new Date().getTime();
+    let namaSiswa = $("#namaSiswa").val();
+    let lembaga = $("#lembagaIdSelectFormDataSiswa").val();
+    let kelas = $("#kelasIdSelectFormDataSiswa").val();
+    if(namaSiswa == null || namaSiswa == "") {
+        M.toast({html: 'Nama siswa tidak boleh kosong'});
+    } else if(lembaga == null || lembaga == ""){
+        M.toast({html: 'Lembaga tidak boleh kosong'});
+    } else if(kelas == null || kelas == ""){
+        M.toast({html: 'Kelas tidak boleh kosong'});
+    } else {
+        $(".progress").show();
+        let db = rootRef.ref("data_siswa/"+ lembaga +"/"+ kelas + "/" + idDataSiswa);
+        db.set({
+            id_data_siswa: idDataSiswa,
+            nama_siswa: namaSiswa,
+            lembaga: lembaga,
+            kelas: kelas
+        });
+        setTimeout(function() {
+            $("input:text").val("");
+            $(".progress").hide();
+        }, 200);
+    }
+});
+// end data siswa

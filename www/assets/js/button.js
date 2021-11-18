@@ -1,4 +1,4 @@
-// button tambah end
+// button tambah
 $(document).on("click", ".btn-floating-new-data", function() {
     if (localStorage.getItem("menu") == "karyawan") {
         let contentValueKaryawan = "";
@@ -204,6 +204,35 @@ $(document).on("click", ".btn-floating-new-data", function() {
     } else if (localStorage.getItem("menu") == "absensi") {
         $(".modal-header-view-all-class").html("");
         $(".modal-content-view-all-class").html("");
+    }else if (localStorage.getItem("menu") == "data-siswa") {
+        let contentValue = "";
+        $(".modal-header-view-all-class").html("Tambah Siswa Baru");
+        contentValue +="<div class='row'>" +
+            "    <form class='col s12'>" +
+            "        <div class='row'>" +
+            "            <div class='input-field col s12'>" +
+            "                <input id='namaSiswa' type='text' required class='validate'>" +
+            "                <label for='nama'>Nama Siswa</label>" +
+            "            </div>" +
+            "            <div class='input-field col s12'>" +
+            "                <select name='' id='lembagaIdSelectFormDataSiswa'>" +
+            "                  <option value='' disabled selected>Pilih Lembaga</option>";
+        let lembagaRefb = rootRef.ref("lembaga/");
+        lembagaRefb.on("child_added", function(data) {
+            let dataValue = data.val();
+            contentValue += "<option value='" + dataValue.id_lembaga + "'>" + dataValue.nama_lembaga + "</option>";
+            $(".progress").hide();
+        });
+        contentValue += "</select>" +
+            "            </div>" +
+            "           <div class='view-kelas-select-form-data-siswa'></div>"+
+            "            <div class='input-field col s12'>" +
+            "              <a class='tambah-data-siswa-class waves-effect waves-light btn-small'>Tambah</a>" +
+            "            </div>" +
+            "        </div>" +
+            "    </form>" +
+            "</div>";
+        $(".modal-content-view-all-class").html(contentValue);
     } else {
         $(".modal-header-view-all-class").html("");
         $(".modal-content-view-all-class").html("");
