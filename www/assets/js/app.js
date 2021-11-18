@@ -57,6 +57,28 @@ $(document).ready(function() {
         $(".body-dashboard").show();
     }
 });
+// loadLembagaSelect
+// digunakan oleh beberapa menu
+// modul
+function loadLembagaSelect() {
+    $(".progress").show();
+    let itemLembaga = "";
+    setTimeout(function() {
+        itemLembaga += "<div class='input-field col s12'>" +
+            "         <select name='' class='lembagaSelectAllFunction'>" +
+            "             <option value='' disabled selected>Pilih Lembaga</option>"
+        let lembagaRef = rootRef.ref("lembaga/");
+        lembagaRef.on("child_added", function(data) {
+            let dataValue = data.val();
+            itemLembaga += "<option value='" + dataValue.id_lembaga + "'>" + dataValue.nama_lembaga + "</option>";
+            $(".progress").hide();
+        });
+        itemLembaga += "</select>";
+        $(".load-lembaga-view-select-class").html(itemLembaga);
+    }, 1000);
+}
+// end loadLembagaSelect
+
 // karyawan start
 $(document).on("click", ".tambah-karyawan-class", function() {
     let idV = new Date().getTime();
@@ -129,24 +151,6 @@ $(document).on("click", ".delete-button-karyawab-class", function() {
         loadKaryawan();
     } else {}
 });
-
-function loadLembagaSelect() {
-    $(".progress").show();
-    let itemLembaga = "";
-    setTimeout(function() {
-        itemLembaga += "<div class='input-field col s12'>" +
-            "         <select name='' class='lembagaSelectAllFunction'>" +
-            "             <option value='' disabled selected>Pilih Lembaga</option>"
-        let lembagaRef = rootRef.ref("lembaga/");
-        lembagaRef.on("child_added", function(data) {
-            let dataValue = data.val();
-            itemLembaga += "<option value='" + dataValue.id_lembaga + "'>" + dataValue.nama_lembaga + "</option>";
-            $(".progress").hide();
-        });
-        itemLembaga += "</select>";
-        $(".load-lembaga-view-select-class").html(itemLembaga);
-    }, 1000);
-}
 // karyawan end
 
 // lembaga start
@@ -224,6 +228,43 @@ $(document).on("click", ".delete-button-lembaga-class", function() {
 // lembaga end
 
 // kelas start
+function KelasLoad() {
+    $(".progress").show();
+    let no = 1;
+    let kelasArray = "";
+    kelasArray += '<table class="kelompok-load-class">' +
+        "<thead>" +
+        "<tr>" +
+        "<th>No</th>" +
+        "<th>Nama Kelas</th>" +
+        "<th>Lembaga</th>" +
+        "</tr>" +
+        "</thead>" +
+        "<tbody>";
+    let kelasRef = rootRef.ref("kelas/");
+    let lembagaRef = rootRef.ref("lembaga/");
+    // where lembaga_id = lembagaIdGetForm
+    // ini seperti query join antara kelas dan lembaga
+    kelasRef.orderByChild("lembaga_id").equalTo(localStorage.getItem("lembagaSelectAllFungtion")).on("child_added", function(dataKelas) {
+        let dataValKelas = dataKelas.val();
+        lembagaRef.child(dataValKelas.lembaga_id).on("value", function(dataLembaga) {
+            let dataValLembaga = dataLembaga.val();
+            setTimeout(function() {
+                kelasArray += "  <tr>" +
+                    "    <td>" + no++ + "</td>" +
+                    "    <td>" + dataValKelas.nama_kelas + "</td>" +
+                    "    <td>" + dataValLembaga.nama_lembaga + "</td>" +
+                    "    <td>" +
+                    "      <a class='edit-button-kelas-class waves-effect waves-light btn-small modal-trigger' data='" + dataValKelas.id_kelas + "' href='#modal1'><img class='img-button-act' src='assets/img/outline_edit_black_24dp.png' alt=''></a>" +
+                    "      <a class='delete-button-kelas-class waves-effect red btn-small' data='" + dataValKelas.id_kelas + "'><img class='img-button-act' src='assets/img/outline_delete_black_24dp.png' alt='' srcset=''></a>" +
+                    "    </td>" +
+                    "  </tr>";
+                $(".kelas-load-class").html(kelasArray + "</tbody></table>");
+                $(".progress").hide();
+            }, 1000);
+        });
+    });
+}
 $(document).on("click", ".tambah-kelas-class", function() {
     $(".progress").show();
     let idKelas = new Date().getTime();
@@ -1104,3 +1145,91 @@ $(document).on("click", ".tambah-data-siswa-class", function(){
     }
 });
 // end data siswa
+
+// jurusan
+function loadJurusanData(){
+    $(".progress").show();
+    let no = 1;
+    let lembagaArray = "";
+    lembagaArray += '<table class="kelompok-load-class">' +
+        "<thead>" +
+        "<tr>" +
+        "<th>No</th>" +
+        "<th>Nama Jurusan</th>" +
+        "</tr>" +
+        "</thead>" +
+        "<tbody>";
+    let db = rootRef.ref("jurusan/" + localStorage.getItem("lembagaSelectAllFungtion"));
+    db.on("child_added", function(data) {
+        let dataValue = data.val();
+        setTimeout(function() {
+            lembagaArray += "  <tr>" +
+                "    <td>" + no++ + "</td>" +
+                "    <td>" + dataValue.nama_jurusan + "</td>" +
+                "    <td>" +
+                "      <a class='edit-button-jurusan-class waves-effect waves-light btn-small modal-trigger' data='" + dataValue.lembaga_id + "/" + dataValue.id_jurusan + "' href='#modal1'><img class='img-button-act' src='assets/img/outline_edit_black_24dp.png' alt=''></a>" +
+                "      <a class='delete-button-jurusan-class waves-effect red btn-small' data='" + dataValue.lembaga_id + "/" + dataValue.id_jurusan + "'><img class='img-button-act' src='assets/img/outline_delete_black_24dp.png' alt='' srcset=''></a>" +
+                "    </td>" +
+                "  </tr>";
+            $(".load-jurusan-class").html(lembagaArray + "</tbody></table>");
+            $(".progress").hide();
+        }, 1000);
+    });
+}
+$(document).on("click", ".tambah-jurusan-class", function(){
+    let idJurusan = new Date().getTime();
+    let namaJurusan = $("#namaJurusan").val();
+    let lembaga = $("#lembagaIdSelectFormJurusan").val();
+
+    if(namaJurusan == null || namaJurusan == "") {
+        M.toast({html: 'Nama jurusan tidak boleh kosong'});
+    } else if(lembaga == null || lembaga == ""){
+        M.toast({html: 'Lembaga tidak boleh kosong'});
+    } else {
+        $(".progress").show();
+        let db = rootRef.ref("jurusan/"+ lembaga +"/"+  idJurusan);
+        db.set({
+            id_jurusan: idJurusan,
+            nama_jurusan: namaJurusan,
+            lembaga_id: lembaga
+        });
+        setTimeout(function() {
+            $("input:text").val("");
+            $(".progress").hide();
+        }, 200);
+    }
+});
+$(document).on("click", ".delete-button-jurusan-class", function() {
+    if (confirm("Hapus")) {
+        let idJurusan = $(this).attr("data");
+        let db = rootRef.ref("jurusan/" + idJurusan);
+        db.remove();
+        loadJurusanData();
+    } else {}
+});
+$(document).on("click", ".button-edit-jurusan-class", function(){
+    let idJurusan = $("#idJurusanEdit").val();
+    let namaJurusan = $("#namaJurusanEdit").val();
+    let lembaga = $("#lembagaIdEdit").val();
+    if(idJurusan == null || idJurusan == "") {
+        M.toast({html: 'Id jurusan tidak boleh kosong'});
+    }else if(namaJurusan == null || namaJurusan == "") {
+        M.toast({html: 'Nama jurusan tidak boleh kosong'});
+    } else if(lembaga == null || lembaga == ""){
+        M.toast({html: 'Lembaga tidak boleh kosong'});
+    } else {
+        $(".progress").show();
+        let db = rootRef.ref("jurusan/"+ lembaga +"/"+  idJurusan);
+        db.set({
+            id_jurusan: idJurusan,
+            nama_jurusan: namaJurusan,
+            lembaga_id: lembaga
+        });
+        setTimeout(function() {
+            $("input:text").val("");
+            loadJurusanData();
+            $(".progress").hide();
+        }, 500);
+    }
+});
+// end jurusan

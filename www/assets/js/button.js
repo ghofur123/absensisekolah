@@ -233,12 +233,40 @@ $(document).on("click", ".btn-floating-new-data", function() {
             "    </form>" +
             "</div>";
         $(".modal-content-view-all-class").html(contentValue);
+    } else if (localStorage.getItem("menu") == "jurusan") {
+        let contentValue = "";
+        $(".modal-header-view-all-class").html("Tambah jurusan Baru");
+        contentValue +="<div class='row'>" +
+            "    <form class='col s12'>" +
+            "        <div class='row'>" +
+            "            <div class='input-field col s12'>" +
+            "                <input id='namaJurusan' type='text' required class='validate'>" +
+            "                <label for='nama'>Nama Jurusan</label>" +
+            "            </div>" +
+            "            <div class='input-field col s12'>" +
+            "                <select name='' id='lembagaIdSelectFormJurusan'>" +
+            "                  <option value='' disabled selected>Pilih Lembaga</option>";
+        let lembagaRefb = rootRef.ref("lembaga/");
+        lembagaRefb.on("child_added", function(data) {
+            let dataValue = data.val();
+            contentValue += "<option value='" + dataValue.id_lembaga + "'>" + dataValue.nama_lembaga + "</option>";
+            $(".progress").hide();
+        });
+        contentValue += "</select>" +
+            "            </div>" +
+            "            <div class='input-field col s12'>" +
+            "              <a class='tambah-jurusan-class waves-effect waves-light btn-small'>Tambah</a>" +
+            "            </div>" +
+            "        </div>" +
+            "    </form>" +
+            "</div>";
+        $(".modal-content-view-all-class").html(contentValue);
     } else {
         $(".modal-header-view-all-class").html("");
         $(".modal-content-view-all-class").html("");
     }
 });
-// button tambah end
+// button edit end
 $(document).on("click", ".edit-button-karyawan-class", function() {
     $(".progress").show();
     let contentIsi = "";
@@ -536,3 +564,48 @@ $(document).on("click", ".edit-button-qrcode-class", function() {
 
 })
 // qrcode end
+
+// jurusan
+$(document).on("click", ".edit-button-jurusan-class", function() {
+    $(".progress").show();
+    let idJurusan = $(this).attr("data");
+    let db = rootRef.ref("jurusan/" + idJurusan);
+    db.on("value", function(data) {
+        let dataResultJurusan = data.val();
+        let contentValue = "";
+        $(".modal-header-view-all-class").html("Edit Kelas");
+        contentValue += "<div class='row'>" +
+            "    <form class='col s12'>" +
+            "        <div class='row'>" +
+            "            <div class='input-field col s12'>" +
+            "                <input id='idJurusanEdit' type='text' required hidden class='validate' value='" + dataResultJurusan.id_jurusan + "'>" +
+            "                <input id='namaJurusanEdit' type='text' required class='validate' value='" + dataResultJurusan.nama_jurusan + "'>" +
+            "                <label for='namaJurusanEdit' class='active'>Nama Jurusan</label>" +
+            "            </div>" +
+            "            <div class='input-field col s12'>" +
+            "                <select name='' id='lembagaIdEdit'>" +
+            "                  <option value='' disabled selected>Pilih Lembaga</option>"
+        let lembagaRef = rootRef.ref("lembaga/");
+        lembagaRef.on("child_added", function(data) {
+            let dataResultLembaga = data.val();
+            if (dataResultJurusan.lembaga_id == dataResultLembaga.id_lembaga) {
+                contentValue += "<option value='" + dataResultLembaga.id_lembaga + "' selected>" + dataResultLembaga.nama_lembaga + "</option>";
+            } else {
+                contentValue += "<option value='" + dataResultLembaga.id_lembaga + "'>" + dataResultLembaga.nama_lembaga + "</option>";
+            }
+            $(".progress").hide();
+        });
+
+        contentValue += "</select>" +
+            "            </div>" +
+            "            <div class='input-field col s12'>" +
+            "              <a class='button-edit-jurusan-class waves-effect waves-light btn-small modal-close'>Edit</a>" +
+            "            </div>" +
+            "        </div>" +
+            "    </form>" +
+            "</div>";
+        $(".modal-content-view-all-class").html(contentValue);
+        $(".progress").hide();
+    });
+});
+// end jurusan

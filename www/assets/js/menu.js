@@ -107,11 +107,20 @@ $(document).on("click", ".menu-nav", function() {
             },200)
             
         }, 1000);
-    }else if (dataVal == "data-siswa") {
+    } else if (dataVal == "data-siswa") {
         $(".btn-plus-data-class").show();
         $(".span-value").html("Data Siswa");
         $(".progress").show();
         $(".load-pages").load("pages/admin/data_siswa.html");
+        setTimeout(function() {
+            $(".progress").hide();
+            loadLembagaSelect();
+        }, 1000);
+    } else if (dataVal == "jurusan") {
+        $(".btn-plus-data-class").show();
+        $(".span-value").html("Jurusan");
+        $(".progress").show();
+        $(".load-pages").load("pages/admin/jurusan.html");
         setTimeout(function() {
             $(".progress").hide();
             loadLembagaSelect();
