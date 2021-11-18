@@ -1,3 +1,5 @@
-cordova plugin add cordova.plugins.diagnostic
+1. cordova plugin add cordova.plugins.diagnostic
 // untuk mendiagnosa plugin apa saja yang tidak berjalan
 https://github.com/dpa99c/cordova-diagnostic-plugin#isgpslocationenabled
+2. cordova-plugin-geolocation
+3. cordova-plugin-qr-barcode-scanner
