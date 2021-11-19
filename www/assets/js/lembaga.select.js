@@ -50,5 +50,6 @@ $(document).on("change", ".lembagaSelectAllFunction", function() {
         loadKaryawanLaporan();
     } else if (localStorage.getItem("menu") == "jurusan") {
         loadJurusanData();
+    }else if (localStorage.getItem("menu") == "data-siswa") {
     } else {}
 });

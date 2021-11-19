@@ -226,6 +226,7 @@ $(document).on("click", ".btn-floating-new-data", function() {
         contentValue += "</select>" +
             "            </div>" +
             "           <div class='view-kelas-select-form-data-siswa'></div>"+
+            "           <div class='view-jurusan-select-form-data-siswa'></div>"+
             "            <div class='input-field col s12'>" +
             "              <a class='tambah-data-siswa-class waves-effect waves-light btn-small'>Tambah</a>" +
             "            </div>" +
@@ -609,3 +610,10 @@ $(document).on("click", ".edit-button-jurusan-class", function() {
     });
 });
 // end jurusan
+
+// data siswa
+$(document).on("click", ".edit-button-data-siswa-class", function(){
+    let dataParam = $(this).attr("data");
+    console.log(dataParam);
+});
+// end data siswa

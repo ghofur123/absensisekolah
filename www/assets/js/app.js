@@ -170,7 +170,6 @@ $(document).on("click", ".tambah-lembaga-class", function() {
         $(".progress").hide();
     }, 200);
 });
-
 function loadLembaga() {
     $(".progress").show();
     let no = 1;
@@ -1103,8 +1102,86 @@ function scrllUsers(){
 // end chat
 
 // data siswa
+$(document).on("change", ".lembagaSelectAllFunction", function () {  
+    let idLembaga = $(this).val();
+    // kelas
+    let contentValue = "";
+    contentValue += "<div class='input-field col s6'>" +
+        "                <select name='' class='kelasIdSelectPage'>" +
+        "                  <option value='' disabled selected>Pilih Kelas</option>"
+    let kelasRef = rootRef.ref("kelas/");
+    kelasRef.orderByChild("lembaga_id").equalTo(idLembaga).on("child_added", function(data) {
+        let dataValue = data.val();
+        contentValue += "<option value='" + dataValue.id_kelas + "'>" + dataValue.nama_kelas + "</option>";
+    });
+    contentValue += "</select>" +
+        "            </div>";
+    $(".view-kelas-select-page").html(contentValue);
+    // jurusan
+    let contentValue2 = "";
+    contentValue2 += "<div class='input-field col s6'>" +
+        "                <select name='' class='jurusanIdSelectPage'>" +
+        "                  <option value='' disabled selected>Pilih Kelas</option>"
+    let jurusan = rootRef.ref("jurusan/"+ idLembaga);
+    jurusan.on("child_added", function(data) {
+        let dataValue2 = data.val();
+        contentValue2 += "<option value='" + dataValue2.id_jurusan + "'>" + dataValue2.nama_jurusan + "</option>";
+    });
+    contentValue2 += "</select>" +
+        "            </div>";
+    $(".view-jurusan-select-page").html(contentValue2);
+})
+$(document).on("change", ".jurusanIdSelectPage", function () {  
+    let lembaga = $(".lembagaSelectAllFunction").val();
+    let kelas = $(".kelasIdSelectPage").val();
+    let jurusan = $(".jurusanIdSelectPage").val();
+    localStorage.setItem("lembagaIdDataSiswa", lembaga);
+    localStorage.setItem("kelasIdDataSiswa", kelas);
+    localStorage.setItem("jurusanIdDataSiswa", jurusan);
+
+    if(lembaga == null || lembaga == "") {
+        M.toast({html: 'Lembaga tidak boleh kosong'});
+    } else if(kelas == null || kelas == "") {
+        M.toast({html: 'Kelas tidak boleh kosong'});
+    } else if(jurusan == null || jurusan == "") {
+        M.toast({html: 'Jurusan tidak boleh kosong'});
+    }  else {
+        loadDataSiswaAll();
+    }
+});
+function loadDataSiswaAll(){
+    $(".progress").show();
+    let no = 1;
+    let dataSiswaArray = "";
+    dataSiswaArray += '<table>' +
+        "<thead>" +
+        "<tr>" +
+        "<th>No</th>" +
+        "<th>Nama Siswa</th>" +
+        "</tr>" +
+        "</thead>" +
+        "<tbody>";
+    let db = rootRef.ref("data_siswa/" +  localStorage.getItem("lembagaIdDataSiswa") +"/"+ localStorage.getItem("kelasIdDataSiswa"));
+
+    db.orderByChild("jurusan_id").equalTo(localStorage.getItem("jurusanIdDataSiswa")).on("child_added", function(data) {
+        let dataValue = data.val();
+        setTimeout(function() {
+            dataSiswaArray += "  <tr>" +
+                "    <td>" + no++ + "</td>" +
+                "    <td>" + dataValue.nama_siswa + "</td>" +
+                "    <td>" +
+                "      <a class='edit-button-data-siswa-class waves-effect waves-light btn-small modal-trigger' data='"  + dataValue.lembaga_id +"/"+ dataValue.kelas_id +"/"+ dataValue.id_data_siswa + "' href='#modal1'><img class='img-button-act' src='assets/img/outline_edit_black_24dp.png' alt=''></a>" +
+                "      <a class='delete-button-data-siswa-class waves-effect red btn-small' data='" + dataValue.lembaga_id +"/"+ dataValue.kelas_id +"/"+ dataValue.id_data_siswa + "'><img class='img-button-act' src='assets/img/outline_delete_black_24dp.png' alt='' srcset=''></a>" +
+                "    </td>" +
+                "  </tr>";
+            $(".data-siswa-load-class").html(dataSiswaArray + "</tbody></table>");
+            $(".progress").hide();
+        }, 1000);
+    });
+}
 $(document).on("change", "#lembagaIdSelectFormDataSiswa", function() {
     let idLembaga = $(this).val();
+    // kelas
     let contentValue = "";
     contentValue += "<div class='input-field col s12'>" +
         "                <select name='' id='kelasIdSelectFormDataSiswa'>" +
@@ -1117,31 +1194,58 @@ $(document).on("change", "#lembagaIdSelectFormDataSiswa", function() {
     contentValue += "</select>" +
         "            </div>";
     $(".view-kelas-select-form-data-siswa").html(contentValue);
+    // jurusan
+    let contentValue2 = "";
+    contentValue2 += "<div class='input-field col s12'>" +
+        "                <select name='' id='jurusanIdSelectFormDataSiswa'>" +
+        "                  <option value='' disabled selected>Pilih Kelas</option>"
+    let jurusan = rootRef.ref("jurusan/"+ idLembaga);
+    jurusan.on("child_added", function(data) {
+        let dataValue2 = data.val();
+        contentValue2 += "<option value='" + dataValue2.id_jurusan + "'>" + dataValue2.nama_jurusan + "</option>";
+    });
+    contentValue2 += "</select>" +
+        "            </div>";
+    $(".view-jurusan-select-form-data-siswa").html(contentValue2);
 });
 $(document).on("click", ".tambah-data-siswa-class", function(){
     let idDataSiswa = new Date().getTime();
     let namaSiswa = $("#namaSiswa").val();
     let lembaga = $("#lembagaIdSelectFormDataSiswa").val();
     let kelas = $("#kelasIdSelectFormDataSiswa").val();
+    let jurusan = $("#jurusanIdSelectFormDataSiswa").val();
     if(namaSiswa == null || namaSiswa == "") {
         M.toast({html: 'Nama siswa tidak boleh kosong'});
     } else if(lembaga == null || lembaga == ""){
         M.toast({html: 'Lembaga tidak boleh kosong'});
     } else if(kelas == null || kelas == ""){
         M.toast({html: 'Kelas tidak boleh kosong'});
+    }else if(jurusan == null || jurusan == ""){
+        M.toast({html: 'Jurusan tidak boleh kosong'});
     } else {
+        M.toast({html: 'Berhasil di simpan'});
         $(".progress").show();
         let db = rootRef.ref("data_siswa/"+ lembaga +"/"+ kelas + "/" + idDataSiswa);
         db.set({
             id_data_siswa: idDataSiswa,
             nama_siswa: namaSiswa,
-            lembaga: lembaga,
-            kelas: kelas
+            lembaga_id: lembaga,
+            kelas_id: kelas,
+            jurusan_id: jurusan
         });
         setTimeout(function() {
             $("input:text").val("");
             $(".progress").hide();
         }, 200);
+    }
+});
+$(document).on("click", ".delete-button-data-siswa-class", function(){
+    let data_param = $(this).attr("data");
+    if(confirm("hapus data siswa....???")){
+        console.log(data_param);
+        let dataSiswaRef = rootRef.ref("data_siswa/" + data_param);
+        dataSiswaRef.remove();
+        loadDataSiswaAll();
     }
 });
 // end data siswa
