@@ -204,7 +204,7 @@ $(document).on("click", ".btn-floating-new-data", function() {
     } else if (localStorage.getItem("menu") == "absensi") {
         $(".modal-header-view-all-class").html("");
         $(".modal-content-view-all-class").html("");
-    }else if (localStorage.getItem("menu") == "data-siswa") {
+    } else if (localStorage.getItem("menu") == "data-siswa") {
         let contentValue = "";
         $(".modal-header-view-all-class").html("Tambah Siswa Baru");
         contentValue +="<div class='row'>" +
@@ -262,10 +262,78 @@ $(document).on("click", ".btn-floating-new-data", function() {
             "    </form>" +
             "</div>";
         $(".modal-content-view-all-class").html(contentValue);
+    } else if (localStorage.getItem("menu") == "absensi-siswa") {
+        let lembaga = $(".lembagaSelectAllFunction").val();
+        let kelas = $(".kelasIdSelectPage").val();
+        let jurusan = $(".jurusanIdSelectPage").val();
+
+        if(lembaga == null || lembaga == "") {
+            M.toast({html: 'Lembaga tidak boleh kosong'});
+        } else if(kelas == null || kelas == "") {
+            M.toast({html: 'Kelas tidak boleh kosong'});
+        } else if(jurusan == null || jurusan == "") {
+            M.toast({html: 'Jurusan tidak boleh kosong'});
+        }  else {
+            $(".progress").show();
+            let no = 1;
+            let dataSiswaArray = "";
+            let dataMultiplePostArray = "";
+            dataSiswaArray += '<table>' +
+                "<thead>" +
+                "<tr>" +
+                "<th>No</th>" +
+                "<th>Nama Siswa</th>" +
+                "</tr>" +
+                "</thead>" +
+                "<tbody>";
+            let db = rootRef.ref("data_siswa/" +  localStorage.getItem("lembagaIdDataSiswa") +"/"+ localStorage.getItem("kelasIdDataSiswa"));
+            db.orderByChild("jurusan_id").equalTo(localStorage.getItem("jurusanIdDataSiswa")).on("child_added", function(data) {
+                let dataValue = data.val();
+                setTimeout(function() {
+                    let number = no++;
+                    dataSiswaArray += "  <tr>" +
+                        "    <td>" + number + "</td>" +
+                        "    <td>" + dataValue.nama_siswa + 
+                        "<input name='id-data-siswa[]' class='id-data-siswa-"+number+"' type='text' value='" + dataValue.id_data_siswa + "' hidden>"+
+                        "<input name='nama-siswa[]' class='nama-siswa-"+number+"' type='text' value='" + dataValue.nama_siswa + "' hidden>"+
+                        "<input name='lembaga-id[]' class='lembaga-id-"+number+"' type='text' value='" + dataValue.lembaga_id + "' hidden>"+
+                        "<input name='kelas-id[]' class='kelas-id-"+number+"' type='text' value='" + dataValue.kelas_id + "' hidden>"+
+                        "<input name='jurusan-id[]' class='jurusan-id-"+number+"' type='text' value='" + dataValue.jurusan_id + "' hidden>"+
+                        "</td>" +
+                        "    <td>" +
+                        "       <p>" +
+                        "        <label>" +
+                        "        <input name='radio-button-"+number+"' class='radio-button-"+number+"' type='radio' value='hadir' />" +
+                        "        <span>Hadir</span>" +
+                        "        </label>" +
+                        "        <label>" +
+                        "        <input name='radio-button-"+number+"' class='radio-button-"+number+"' type='radio' value='alpa' />" +
+                        "        <span>Alpa</span>" +
+                        "        </label>" +
+                        "        <label>" +
+                        "        <input name='radio-button-"+number+"' class='radio-button-"+number+"' type='radio' value='izin' />" +
+                        "        <span>Izin</span>" +
+                        "        </label>" +
+                        "        <label>" +
+                        "        <input name='radio-button-"+number+"' class='radio-button-"+number+"' type='radio' value='sakit' />" +
+                        "        <span>Sakit</span>" +
+                        "        </label>" +
+                        "        </p>" +
+                        "    </td>" +
+                        "  </tr>";
+                        let btnPostAll = "<button class='waves-effect waves-light btn-small btn-simpan-all-absensi'>Simpan</button>";
+                    $(".modal-content-view-all-class").html(dataSiswaArray + "</tbody></table>"+btnPostAll);
+                    $(".progress").hide();
+                }, 1000);
+            });
+        }
     } else {
         $(".modal-header-view-all-class").html("");
         $(".modal-content-view-all-class").html("");
     }
+});
+$(document).on("click", ".btn-simpan-all-absensi", function () {  
+    console.log();
 });
 // button edit end
 $(document).on("click", ".edit-button-karyawan-class", function() {

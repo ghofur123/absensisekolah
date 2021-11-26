@@ -125,6 +125,15 @@ $(document).on("click", ".menu-nav", function() {
             $(".progress").hide();
             loadLembagaSelect();
         }, 1000);
+    } else if (dataVal == "absensi-siswa") {
+        $(".btn-plus-data-class").show();
+        $(".span-value").html("Absensi Siswa");
+        $(".progress").show();
+        $(".load-pages").load("pages/admin/absensi_siswa.html");
+        setTimeout(function() {
+            $(".progress").hide();
+            loadLembagaSelect();
+        }, 1000);
     } else {
         $(".btn-plus-data-class").hide();
         $(".span-value").html("YPI Nurul Mannan");

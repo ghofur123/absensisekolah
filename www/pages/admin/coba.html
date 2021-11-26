@@ -1,44 +1,50 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>submit demo</title>
-  <style>
-  p {
-    margin: 0;
-    color: blue;
-  }
-  div,p {
-    margin-left: 10px;
-  }
-  span {
-    color: red;
-  }
-  </style>
-  <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
-</head>
-<body>
- 
-<p>Type 'correct' to validate.</p>
-<form id="mm">
-  <div>
-    <input type="text">
-    <input type="submit">
-  </div>
-</form>
-<span></span>
- 
-<script>
-$( "#mm" ).submit(function( event ) {
-  if ( $( "input" ).first().val() === "correct" ) {
-    $( "span" ).text( "Validated..." ).show();
-    return;
-  }
- 
-  $( "span" ).text( "Not valid!" ).show().fadeOut( 1000 );
-  event.preventDefault();
-});
-</script>
- 
-</body>
+<!DOCTYPE html> 
+<html lang="en" dir="ltr"> 
+
+<head> 
+	<meta charset="utf-8"> 
+	<title> 
+		How to get values from html input 
+		array using JavaScript ? 
+	</title> 
+</head> 
+
+<body style="text-align: center;"> 
+	
+	<h1 style="color: #af1bf9;"> 
+		NiceSnippets 
+	</h1> 
+
+	<h3 id="mv">Input Array Elements</h3> 
+	<form class="" action="index.html" method="post"> 
+		<input type="text" name="array[]" value="" /><br> 
+		<input type="text" name="array[]" value="" /><br> 
+		<input type="text" name="array[]" value="" /><br> 
+		<input type="text" name="array[]" value="" /><br> 
+		<input type="text" name="array[]" value="" /><br> 
+		<button type="button" name="button" onclick="ns()"> 
+			Submit 
+		</button> 
+	</form> 
+	<br> 
+
+	<p id="var"></p> 
+
+	<script type="text/javascript"> 
+		var v = "The respective values are :"; 
+		function ns() { 
+			var input = document.getElementsByName('array[]'); 
+
+			for (var i = 0; i < input.length; i++) { 
+				var p = input[i]; 
+				v = v + "array[" + i + "].value= " 
+								+ p.value + " "; 
+			} 
+
+			document.getElementById("var").innerHTML = v; 
+			document.getElementById("mv").innerHTML = "Output"; 
+		} 
+	</script> 
+</body> 
+
 </html>

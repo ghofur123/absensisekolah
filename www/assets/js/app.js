@@ -1102,7 +1102,7 @@ function scrllUsers(){
 // end chat
 
 // data siswa
-$(document).on("change", ".lembagaSelectAllFunction", function () {  
+$(document).on("change", ".lembagaSelectAllFunction", function () {
     let idLembaga = $(this).val();
     // kelas
     let contentValue = "";
@@ -1146,7 +1146,11 @@ $(document).on("change", ".jurusanIdSelectPage", function () {
     } else if(jurusan == null || jurusan == "") {
         M.toast({html: 'Jurusan tidak boleh kosong'});
     }  else {
-        loadDataSiswaAll();
+        if (localStorage.getItem("menu") == "data-siswa") {
+            loadDataSiswaAll();
+        } else if (localStorage.getItem("menu") == "absensi-siswa") {
+            loadAbsensiSiswaAll();
+        }
     }
 });
 function loadDataSiswaAll(){
@@ -1337,3 +1341,23 @@ $(document).on("click", ".button-edit-jurusan-class", function(){
     }
 });
 // end jurusan
+
+// absensi siswa
+function loadAbsensiSiswaAll(){
+    
+}
+$(document).on("click", ".button-absensi-siswa", function(){
+    loadAbsensiSiswaAll();
+});
+
+$(document).on("click", ".btn-simpan-all-absensi", function(){
+    let arrayVal = [];
+    let idDataSiswaValue = $("input[name='id-data-siswa[]']").map(function(){return $(this).val();}).get();
+    for(let i = 1; i < idDataSiswaValue.length + 1; i++){
+        console.log(i+"-----"+ idDataSiswaValue.length);
+        
+        arrayVal = idDataSiswaValue;
+    }
+    console.log(arrayVal);
+});
+// end absensi siswa
